@@ -77,17 +77,16 @@ function update(mod, sprite) {
   }
 
   if(!Object.keys(keysDown).length) {
-    if(sprite.lastX != sprite.x || sprite.lastX != sprite.lastY) {
-      sprite.velocityX = (sprite.x - sprite.lastX);
+    if(sprite.lastX != sprite.x || sprite.lastY != sprite.y) { // If it has moved
+      sprite.velocityX = (sprite.x - sprite.lastX);            // Velocity = difference in move
       sprite.velocityY = (sprite.y - sprite.lastY);
-      sprite.lastY = sprite.y;
-      sprite.lastX = sprite.x;
     }
     sprite.y += sprite.velocityY * mod;
     sprite.x += sprite.velocityX * mod;
     sprite.velocityX *= sprite.friction;
     sprite.velocityY *= sprite.friction;
-    console.log("X: " + sprite.velocityX + " Y: " + sprite.velocityY);
+    sprite.lastY = sprite.y;                                 // Update position
+    sprite.lastX = sprite.x;
   }
 }
 

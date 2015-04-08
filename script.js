@@ -10,17 +10,21 @@ canvas.width = 500;
 function Sprite(options) {
   var that = {};
         
-  that.width = options.width;
-  that.height = options.height;
   that.x = options.x;
   that.y = options.y;
+  that.width = options.width;
+  that.height = options.height;
   that.speed = options.speed;
-  that.color = options.color;
-  that.basespeed = options.basespeed;
+  that.minspeed = options.minspeed;
+  that.maxspeed = options.maxspeed;
   that.friction = options.friction;
   that.momentum = options.momentum;
-  that.dx = options.dx;
-  that.dy = options.dy;
+  that.color = options.color;
+
+  that.lastX = options.x;
+  that.lastY = options.y;
+  that.velocityX = 0;
+  that.velocityY = 0;
 
   that.render = function () {
     ctx.fillStyle = square.color;
@@ -42,48 +46,60 @@ window.addEventListener('keyup', function(e) {
 });
  
 function update(mod, sprite) {
+  
   // Left
   if(65 in keysDown && sprite.x > 0) {
     sprite.x -= sprite.speed * mod;
-    sprite.speed *= sprite.momentum;
+    if((sprite.speed * sprite.momentum) < sprite.maxspeed) {
+      sprite.speed *= sprite.momentum;
+    }
   }
   // Up
   if(87 in keysDown && sprite.y > 0) {
     sprite.y -= sprite.speed * mod;
-    sprite.speed *= sprite.momentum;
+    if((sprite.speed * sprite.momentum) < sprite.maxspeed) {
+      sprite.speed *= sprite.momentum;
+    }
   }
   // Right
   if(68 in keysDown && sprite.x < canvas.width - sprite.width) {
     sprite.x += sprite.speed * mod;
-    sprite.speed *= sprite.momentum;
+    if((sprite.speed * sprite.momentum) < sprite.maxspeed) {
+      sprite.speed *= sprite.momentum;
+    }
   }
   // Down
   if(83 in keysDown && sprite.y < canvas.height - sprite.height) {
     sprite.y += sprite.speed * mod;
-    sprite.speed *= sprite.momentum;
+    if((sprite.speed * sprite.momentum) < sprite.maxspeed) {
+      sprite.speed *= sprite.momentum;
+    }
   }
 
-  //console.log("START: " + startX + ":" + startY); // UNDEFINED?!
   if(!Object.keys(keysDown).length) {
-    if(sprite.y < canvas.height - sprite.height) {
-      sprite.y += sprite.speed * mod;
-      sprite.speed *= sprite.momentum;
-    } else {
-      sprite.speed = sprite.basespeed;
+    if(sprite.lastX != sprite.x || sprite.lastX != sprite.lastY) {
+      sprite.velocityX = (sprite.x - sprite.lastX);
+      sprite.velocityY = (sprite.y - sprite.lastY);
+      sprite.lastY = sprite.y;
+      sprite.lastX = sprite.x;
     }
+    sprite.y += sprite.velocityY * mod;
+    sprite.x += sprite.velocityX * mod;
+    sprite.velocityX *= sprite.friction;
+    sprite.velocityY *= sprite.friction;
+    console.log("X: " + sprite.velocityX + " Y: " + sprite.velocityY);
   }
 }
 
 function drawSquare() {
   square = Sprite({
-    dx: 0,
-    dy: 0,
     x: 225,
     y: 0,
     width: 50,
     height: 50,
     speed: 10,
-    basespeed: 10,
+    minspeed: 10,
+    maxspeed: 1000,
     friction: 0.95,
     momentum: 1.05,
     color: '#000'
@@ -106,4 +122,3 @@ function run() {
   square.render();
   time = Date.now();
 }
- 

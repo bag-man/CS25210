@@ -76,12 +76,16 @@ function update(mod, sprite) {
     }
   }
 
-  //if(!Object.keys(keysDown).length) {
   if(!(87 in keysDown)) {
-    if(sprite.lastX !== sprite.x || sprite.lastY !== sprite.y) {
+
+    if(sprite.lastX !== sprite.x) {
       sprite.velocityX = (sprite.x - sprite.lastX);
+    }
+
+    if(sprite.lastY !== sprite.y) {
       sprite.velocityY = (sprite.y - sprite.lastY);
     }
+
     sprite.y += sprite.velocityY * mod;
     sprite.x += sprite.velocityX * mod;
     sprite.velocityX *= sprite.friction;

@@ -24,7 +24,7 @@ function Sprite(options) {
   that.lastX = options.x;
   that.lastY = options.y;
   that.velocityX = 0;
-  that.velocityY = 0;
+  that.velocityY = 10;
 
   that.render = function () {
     ctx.fillStyle = square.color;
@@ -76,18 +76,29 @@ function update(mod, sprite) {
     }
   }
 
-  if(!Object.keys(keysDown).length) {
-    if(sprite.lastX != sprite.x || sprite.lastY != sprite.y) { // If it has moved
-      sprite.velocityX = (sprite.x - sprite.lastX);            // Velocity = difference in move
+  //if(!Object.keys(keysDown).length) {
+  if(!(87 in keysDown)) {
+    if(sprite.lastX !== sprite.x || sprite.lastY !== sprite.y) {
+      sprite.velocityX = (sprite.x - sprite.lastX);
       sprite.velocityY = (sprite.y - sprite.lastY);
     }
     sprite.y += sprite.velocityY * mod;
     sprite.x += sprite.velocityX * mod;
     sprite.velocityX *= sprite.friction;
-    sprite.velocityY *= sprite.friction;
-    sprite.lastY = sprite.y;                                 // Update position
+
+    if(sprite.velocityY < -0.4){
+      sprite.velocityY *= sprite.friction;
+    } else if(sprite.velocityY > -0.4 && sprite.velocityY < 10) {
+      sprite.velocityY = 10;
+    } else {
+      sprite.velocityY *= sprite.momentum;
+    }
+
+    sprite.lastY = sprite.y;
     sprite.lastX = sprite.x;
+    //console.log("X: " + sprite.velocityX + " Y: " + sprite.velocityY);
   }
+
 }
 
 function drawSquare() {

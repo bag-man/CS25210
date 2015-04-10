@@ -6,6 +6,8 @@ var square;
 
 canvas.height = 400;
 canvas.width = 500;
+
+var GRAVITY = 1.05;
  
 function Sprite(options) {
   var that = {};
@@ -35,6 +37,10 @@ function Sprite(options) {
 }
  
 var keysDown = {};
+
+window.onload = function() {
+  document.getElementById("reset").focus();
+};
 
 window.addEventListener('keydown', function(e) {
   keysDown[e.keyCode] = true;
@@ -90,12 +96,12 @@ function update(mod, sprite) {
     sprite.x += sprite.velocityX * mod;
     sprite.velocityX *= sprite.friction;
 
-    if(sprite.velocityY < -0.4){
+    if(sprite.velocityY < -1){
       sprite.velocityY *= sprite.friction;
-    } else if(sprite.velocityY > -0.4 && sprite.velocityY < 10) {
+    } else if(sprite.velocityY > -1 && sprite.velocityY < 10) {
       sprite.velocityY = 10;
     } else {
-      sprite.velocityY *= sprite.momentum;
+      sprite.velocityY *= GRAVITY;
     }
 
     sprite.lastY = sprite.y;
@@ -106,6 +112,9 @@ function update(mod, sprite) {
 }
 
 function drawSquare() {
+  GRAVITY = document.getElementById("gravity").value;
+  console.log(GRAVITY);
+  clearCanvas();
   square = Sprite({
     x: 225,
     y: 0,

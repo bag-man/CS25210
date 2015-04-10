@@ -113,7 +113,6 @@ function update(mod, sprite) {
 
 function drawSquare() {
   GRAVITY = document.getElementById("gravity").value;
-  console.log(GRAVITY);
   clearCanvas();
   square = Sprite({
     x: 225,

@@ -7,6 +7,8 @@ var square;
 canvas.height = 400;
 canvas.width = 500;
 
+clearCanvas();
+
 var GRAVITY = 1.05;
  
 function Sprite(options) {
@@ -133,14 +135,20 @@ function drawSquare() {
 
 function clearCanvas() {
   canvas.width = canvas.width; 
+  ctx.fillStyle = "#F00";
+  ctx.fillRect(0, 0, canvas.width / 2, canvas.height);
+  ctx.fillStyle = "#0F0";
+  ctx.fillRect(canvas.width / 2, 0, canvas.width / 2, canvas.height);
   clearInterval(animation);
   square = null;
 }
  
 function run() {
   update((Date.now() - time) / 1000, square);
-  ctx.fillStyle = '#FFFFFF';
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = "#F00";
+  ctx.fillRect(0, 0, canvas.width / 2, canvas.height);
+  ctx.fillStyle = "#0F0";
+  ctx.fillRect(canvas.width / 2, 0, canvas.width / 2, canvas.height);
   square.render();
   time = Date.now();
 }

@@ -18,6 +18,11 @@ function addScore() {
   score++;
   scoreField.innerHTML = score;
 }
+
+function clearScore() {
+  var score = scoreField.innerHTML;
+  scoreField.innerHTML = 0;
+}
  
 function Sprite(options) {
   var that = {};
@@ -151,6 +156,7 @@ function update(mod, sprite) {
 }
 
 function drawSquare() {
+  clearScore();
   GRAVITY = document.getElementById("gravity").value;
   clearCanvas();
   leftSquare = Sprite({

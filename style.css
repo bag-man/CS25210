@@ -1,5 +1,5 @@
 canvas {
-  border:1px solid black;
+  border: 1px solid black;
   padding-left: 0;
   padding-right: 0;
   margin-left: auto;
@@ -8,5 +8,9 @@ canvas {
 }
 
 body {
-  text-align:center;
+  text-align: center;
+}
+
+p { 
+  display: inline;
 }

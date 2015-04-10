@@ -12,6 +12,12 @@ clearCanvas();
 
 var GRAVITY = 1.05;
 var HALF = canvas.width / 2;
+
+function addScore() {
+  var score = scoreField.innerHTML;
+  score++;
+  scoreField.innerHTML = score;
+}
  
 function Sprite(options) {
   var that = {};
@@ -30,6 +36,7 @@ function Sprite(options) {
   that.up = options.up;
   that.right = options.right;
   that.down = options.down;
+  that.side = options.side;
 
   that.lastX = options.x;
   that.lastY = options.y;
@@ -38,16 +45,27 @@ function Sprite(options) {
 
   that.render = function () {
     if((that.x + that.width) < (HALF)) { 
+      // LEFT
       ctx.fillStyle = "#0F0";
       ctx.fillRect(that.x, that.y, that.width, that.height);
-    } else if((that.x + that.width) > (HALF) && that.x < (HALF)) { // IN THE MIDDLE
+      if(that.side == "right") {
+        that.side = "left";
+        addScore();
+      }
+    } else if((that.x + that.width) > (HALF) && that.x < (HALF)) {          
+      // MIDDLE
       ctx.fillStyle = "#0F0";
       ctx.fillRect(that.x, that.y, (HALF - that.x), that.height);
       ctx.fillStyle = "#F00";
       ctx.fillRect(HALF, that.y, that.width - (HALF - that.x), that.height);
-    } else {
+    } else {                                           
+      // RIGHT
       ctx.fillStyle = "#F00";
       ctx.fillRect(that.x, that.y, that.width, that.height);
+      if(that.side == "left") {
+        that.side = "right";
+        addScore();
+      }
     }
   };
 
@@ -58,6 +76,7 @@ var keysDown = {};
 
 window.onload = function() {
   document.getElementById("reset").focus();
+  scoreField = document.getElementById('score');
 };
 
 window.addEventListener('keydown', function(e) {
@@ -72,7 +91,7 @@ window.addEventListener('keyup', function(e) {
 });
  
 function update(mod, sprite) {
-  
+
   // Left
   if(sprite.left in keysDown && sprite.x > 0) {
     sprite.x -= sprite.speed * mod;
@@ -88,6 +107,7 @@ function update(mod, sprite) {
     }
   }
   // Right
+
   if(sprite.right in keysDown && sprite.x < canvas.width - sprite.width) {
     sprite.x += sprite.speed * mod;
     if((sprite.speed * sprite.momentum) < sprite.maxspeed) {
@@ -103,7 +123,6 @@ function update(mod, sprite) {
   }
 
   if(!(sprite.down in keysDown)) {
-
     if(sprite.lastX !== sprite.x) {
       sprite.velocityX = (sprite.x - sprite.lastX);
     }
@@ -149,6 +168,7 @@ function drawSquare() {
     up: 87,
     right: 68,
     down: 83,
+    side: "left",
   });
   rightSquare = Sprite({
     x: 350,
@@ -165,6 +185,7 @@ function drawSquare() {
     up: 38,
     right: 39,
     down: 40,
+    side: "right",
   });
   time = Date.now();
   leftSquare.render();

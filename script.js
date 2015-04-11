@@ -97,6 +97,11 @@ window.addEventListener('keyup', function(e) {
  
 function update(mod, sprite) {
 
+  if(sprite.y > canvas.height) {
+    alert("GAME OVER!!!");
+    clearCanvas();
+  }
+
   // Left
   if(sprite.left in keysDown && sprite.x > 0) {
     sprite.x -= sprite.speed * mod;

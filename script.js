@@ -117,7 +117,6 @@ function update(mod, sprite) {
     }
   }
   // Right
-
   if(sprite.right in keysDown && sprite.x < canvas.width - sprite.width) {
     sprite.x += sprite.speed * mod;
     if((sprite.speed * sprite.momentum) < sprite.maxspeed) {
@@ -125,14 +124,16 @@ function update(mod, sprite) {
     }
   }
   // Down
+  /*
   if(sprite.down in keysDown && sprite.y < canvas.height - sprite.height) {
     sprite.y += sprite.speed * mod;
     if((sprite.speed * sprite.momentum) < sprite.maxspeed) {
       sprite.speed *= sprite.momentum;
     }
   }
+  */
 
-  if(!(sprite.down in keysDown)) {
+  //if(!(sprite.down in keysDown)) {
     if(sprite.lastX !== sprite.x) {
       sprite.velocityX = (sprite.x - sprite.lastX);
     }
@@ -156,7 +157,7 @@ function update(mod, sprite) {
     sprite.lastY = sprite.y;
     sprite.lastX = sprite.x;
     //console.log("X: " + sprite.velocityX + " Y: " + sprite.velocityY);
-  }
+  //}
 
 }
 
@@ -205,6 +206,7 @@ function drawSquare() {
 }
 
 function clearCanvas() {
+  keysDown = {};
   canvas.width = canvas.width; 
   ctx.fillStyle = "#F00";
   ctx.fillRect(0, 0, HALF, canvas.height);

@@ -5,6 +5,7 @@ var time;
 var leftSquare;
 var rightSquare;
 
+
 canvas.height = 400;
 canvas.width = 500;
 
@@ -123,49 +124,37 @@ function update(mod, sprite) {
       sprite.speed *= sprite.momentum;
     }
   }
-  // Down
-  /*
-  if(sprite.down in keysDown && sprite.y < canvas.height - sprite.height) {
-    sprite.y += sprite.speed * mod;
-    if((sprite.speed * sprite.momentum) < sprite.maxspeed) {
-      sprite.speed *= sprite.momentum;
-    }
+
+  if(sprite.lastX !== sprite.x) {
+    sprite.velocityX = (sprite.x - sprite.lastX);
   }
-  */
 
-  //if(!(sprite.down in keysDown)) {
-    if(sprite.lastX !== sprite.x) {
-      sprite.velocityX = (sprite.x - sprite.lastX);
-    }
+  if(sprite.lastY !== sprite.y) {
+    sprite.velocityY = (sprite.y - sprite.lastY);
+  }
 
-    if(sprite.lastY !== sprite.y) {
-      sprite.velocityY = (sprite.y - sprite.lastY);
-    }
+  sprite.y += sprite.velocityY * mod;
+  sprite.x += sprite.velocityX * mod;
+  sprite.velocityX *= sprite.friction;
 
-    sprite.y += sprite.velocityY * mod;
-    sprite.x += sprite.velocityX * mod;
-    sprite.velocityX *= sprite.friction;
+  if(sprite.velocityY < -1){
+    sprite.velocityY *= sprite.friction;
+  } else if(sprite.velocityY > -1 && sprite.velocityY < 10) {
+    sprite.velocityY = 10;
+  } else {
+    sprite.velocityY *= GRAVITY;
+  }
 
-    if(sprite.velocityY < -1){
-      sprite.velocityY *= sprite.friction;
-    } else if(sprite.velocityY > -1 && sprite.velocityY < 10) {
-      sprite.velocityY = 10;
-    } else {
-      sprite.velocityY *= GRAVITY;
-    }
-
-    sprite.lastY = sprite.y;
-    sprite.lastX = sprite.x;
-    //console.log("X: " + sprite.velocityX + " Y: " + sprite.velocityY);
-  //}
-
+  sprite.lastY = sprite.y;
+  sprite.lastX = sprite.x;
 }
 
+var objects = [];
 function drawSquare() {
   clearScore();
   GRAVITY = document.getElementById("gravity").value;
   clearCanvas();
-  leftSquare = Sprite({
+  objects.push(Sprite({
     x: 100,
     y: 0,
     width: 50,
@@ -181,8 +170,8 @@ function drawSquare() {
     right: 68,
     down: 83,
     side: "left",
-  });
-  rightSquare = Sprite({
+  }));
+  objects.push(Sprite({
     x: 350,
     y: 0,
     width: 50,
@@ -198,10 +187,11 @@ function drawSquare() {
     right: 39,
     down: 40,
     side: "right",
-  });
+  }));
   time = Date.now();
-  leftSquare.render();
-  rightSquare.render();
+  objects.forEach(function(o) {
+    o.render();
+  });
   animation = setInterval(run, 10);
 }
 

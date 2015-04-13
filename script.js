@@ -51,7 +51,7 @@ function Sprite(options) {
   that.render = function () {
     if((that.x + that.width) < (HALF)) { 
       // LEFT
-      ctx.fillStyle = "#0F0";
+      ctx.fillStyle = "#FFF";
       ctx.fillRect(that.x, that.y, that.width, that.height);
       if(that.side == "right") {
         that.side = "left";
@@ -59,7 +59,7 @@ function Sprite(options) {
       }
     } else if((that.x + that.width) > (HALF) && that.x < (HALF)) {          
       // MIDDLE
-      ctx.fillStyle = "#0F0";
+      ctx.fillStyle = "#FFF";
       ctx.fillRect(that.x, that.y, (HALF - that.x), that.height);
       ctx.fillStyle = "#F00";
       ctx.fillRect(HALF, that.y, that.width - (HALF - that.x), that.height);
@@ -210,7 +210,7 @@ function clearCanvas() {
   canvas.width = canvas.width; 
   ctx.fillStyle = "#F00";
   ctx.fillRect(0, 0, HALF, canvas.height);
-  ctx.fillStyle = "#0F0";
+  ctx.fillStyle = "#FFF";
   ctx.fillRect(HALF, 0, HALF, canvas.height);
   clearInterval(animation);
   leftSquare = null;
@@ -222,7 +222,7 @@ function run() {
   update((Date.now() - time) / 1000, leftSquare);
   ctx.fillStyle = "#F00";
   ctx.fillRect(0, 0, HALF, canvas.height);
-  ctx.fillStyle = "#0F0";
+  ctx.fillStyle = "#FFF";
   ctx.fillRect(HALF, 0, HALF, canvas.height);
   leftSquare.render();
   rightSquare.render();

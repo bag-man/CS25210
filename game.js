@@ -1,9 +1,8 @@
+/* Global vars */
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
 var animation;
 var time;
-var leftSquare;
-var rightSquare;
 
 canvas.height = 400;
 canvas.width = 500;
@@ -11,6 +10,9 @@ canvas.width = 500;
 var GRAVITY = 1.05;
 var HALF = canvas.width / 2;
 
+var objects = [];
+
+/* Keyboard interaction */
 var keysDown = {};
 
 window.onload = function() {
@@ -28,7 +30,69 @@ window.addEventListener('keydown', function(e) {
 window.addEventListener('keyup', function(e) {
   delete keysDown[e.keyCode];
 });
+
+/* Initialise */
+function startGame() {
+  clearScore();
+  GRAVITY = document.getElementById("gravity").value;
+  clearCanvas();
+  objects.push(new Sprite({
+    x: 100,
+    y: 0,
+    width: 50,
+    height: 50,
+    speed: 10,
+    minspeed: 10,
+    maxspeed: 1000,
+    friction: 0.95,
+    momentum: 1.05,
+    color: '#000',
+    left: 65,
+    up: 87,
+    right: 68,
+    down: 83,
+    side: "left",
+  }));
+  objects.push(new Sprite({
+    x: 350,
+    y: 0,
+    width: 50,
+    height: 50,
+    speed: 10,
+    minspeed: 10,
+    maxspeed: 1000,
+    friction: 0.95,
+    momentum: 1.05,
+    color: '#000',
+    left: 37,
+    up: 38,
+    right: 39,
+    down: 40,
+    side: "right",
+  }));
+  time = Date.now();
+  objects.forEach(function(o) {
+    o.render();
+  });
+  animation = setInterval(run, 10);
+}
  
+/* Run game */
+function run() {
+  objects.forEach(function(o) {
+    update((Date.now() - time) / 1000, o);
+  });
+  ctx.fillStyle = "#F00";
+  ctx.fillRect(0, 0, HALF, canvas.height);
+  ctx.fillStyle = "#FFF";
+  ctx.fillRect(HALF, 0, HALF, canvas.height);
+  objects.forEach(function(o) {
+    o.render();
+  });
+  time = Date.now();
+}
+
+/* Game logic */
 function update(mod, sprite) {
   if(sprite.y > canvas.height) {
     alert("GAME OVER!!!");
@@ -81,53 +145,7 @@ function update(mod, sprite) {
   sprite.lastX = sprite.x;
 }
 
-var objects = [];
-
-function startGame() {
-  clearScore();
-  GRAVITY = document.getElementById("gravity").value;
-  clearCanvas();
-  objects.push(new Sprite({
-    x: 100,
-    y: 0,
-    width: 50,
-    height: 50,
-    speed: 10,
-    minspeed: 10,
-    maxspeed: 1000,
-    friction: 0.95,
-    momentum: 1.05,
-    color: '#000',
-    left: 65,
-    up: 87,
-    right: 68,
-    down: 83,
-    side: "left",
-  }));
-  objects.push(new Sprite({
-    x: 350,
-    y: 0,
-    width: 50,
-    height: 50,
-    speed: 10,
-    minspeed: 10,
-    maxspeed: 1000,
-    friction: 0.95,
-    momentum: 1.05,
-    color: '#000',
-    left: 37,
-    up: 38,
-    right: 39,
-    down: 40,
-    side: "right",
-  }));
-  time = Date.now();
-  objects.forEach(function(o) {
-    o.render();
-  });
-  animation = setInterval(run, 10);
-}
-
+/* Helpers */
 function clearCanvas() {
   keysDown = {};
   canvas.width = canvas.width; 
@@ -136,22 +154,6 @@ function clearCanvas() {
   ctx.fillStyle = "#FFF";
   ctx.fillRect(HALF, 0, HALF, canvas.height);
   clearInterval(animation);
-  leftSquare = null;
-  rightSquare = null;
-}
- 
-function run() {
-  objects.forEach(function(o) {
-    update((Date.now() - time) / 1000, o);
-  });
-  ctx.fillStyle = "#F00";
-  ctx.fillRect(0, 0, HALF, canvas.height);
-  ctx.fillStyle = "#FFF";
-  ctx.fillRect(HALF, 0, HALF, canvas.height);
-  objects.forEach(function(o) {
-    o.render();
-  });
-  time = Date.now();
 }
 
 function addScore() {

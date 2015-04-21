@@ -5,79 +5,12 @@ var time;
 var leftSquare;
 var rightSquare;
 
-
 canvas.height = 400;
 canvas.width = 500;
-
-clearCanvas();
 
 var GRAVITY = 1.05;
 var HALF = canvas.width / 2;
 
-function addScore() {
-  var score = scoreField.innerHTML;
-  score++;
-  scoreField.innerHTML = score;
-}
-
-function clearScore() {
-  var score = scoreField.innerHTML;
-  scoreField.innerHTML = 0;
-}
- 
-function Sprite(options) {
-  var that = {};
-        
-  that.x = options.x;
-  that.y = options.y;
-  that.width = options.width;
-  that.height = options.height;
-  that.speed = options.speed;
-  that.minspeed = options.minspeed;
-  that.maxspeed = options.maxspeed;
-  that.friction = options.friction;
-  that.momentum = options.momentum;
-  that.color = options.color;
-  that.left = options.left;
-  that.up = options.up;
-  that.right = options.right;
-  that.down = options.down;
-  that.side = options.side;
-
-  that.lastX = options.x;
-  that.lastY = options.y;
-  that.velocityX = 0;
-  that.velocityY = 10;
-
-  that.render = function () {
-    if((that.x + that.width) < (HALF)) { 
-      // LEFT
-      ctx.fillStyle = "#FFF";
-      ctx.fillRect(that.x, that.y, that.width, that.height);
-      if(that.side == "right") {
-        that.side = "left";
-        addScore();
-      }
-    } else if((that.x + that.width) > (HALF) && that.x < (HALF)) {          
-      // MIDDLE
-      ctx.fillStyle = "#FFF";
-      ctx.fillRect(that.x, that.y, (HALF - that.x), that.height);
-      ctx.fillStyle = "#F00";
-      ctx.fillRect(HALF, that.y, that.width - (HALF - that.x), that.height);
-    } else {                                           
-      // RIGHT
-      ctx.fillStyle = "#F00";
-      ctx.fillRect(that.x, that.y, that.width, that.height);
-      if(that.side == "left") {
-        that.side = "right";
-        addScore();
-      }
-    }
-  };
-
-  return that;
-}
- 
 var keysDown = {};
 
 window.onload = function() {
@@ -97,7 +30,6 @@ window.addEventListener('keyup', function(e) {
 });
  
 function update(mod, sprite) {
-
   if(sprite.y > canvas.height) {
     alert("GAME OVER!!!");
     clearCanvas();
@@ -150,11 +82,12 @@ function update(mod, sprite) {
 }
 
 var objects = [];
-function drawSquare() {
+
+function startGame() {
   clearScore();
   GRAVITY = document.getElementById("gravity").value;
   clearCanvas();
-  objects.push(Sprite({
+  objects.push(new Sprite({
     x: 100,
     y: 0,
     width: 50,
@@ -171,7 +104,7 @@ function drawSquare() {
     down: 83,
     side: "left",
   }));
-  objects.push(Sprite({
+  objects.push(new Sprite({
     x: 350,
     y: 0,
     width: 50,
@@ -208,13 +141,27 @@ function clearCanvas() {
 }
  
 function run() {
-  update((Date.now() - time) / 1000, rightSquare);
-  update((Date.now() - time) / 1000, leftSquare);
+  objects.forEach(function(o) {
+    update((Date.now() - time) / 1000, o);
+  });
   ctx.fillStyle = "#F00";
   ctx.fillRect(0, 0, HALF, canvas.height);
   ctx.fillStyle = "#FFF";
   ctx.fillRect(HALF, 0, HALF, canvas.height);
-  leftSquare.render();
-  rightSquare.render();
+  objects.forEach(function(o) {
+    o.render();
+  });
   time = Date.now();
 }
+
+function addScore() {
+  var score = scoreField.innerHTML;
+  score++;
+  scoreField.innerHTML = score;
+}
+
+function clearScore() {
+  var score = scoreField.innerHTML;
+  scoreField.innerHTML = 0;
+}
+ 

@@ -151,18 +151,20 @@ function update(mod, sprite) {
     sprite.x = sprite.lastX;
   }
 
+  //colisionDetect(sprite);
+
   sprite.lastY = sprite.y;
   sprite.lastX = sprite.x;
 }
 
 function colisionDetect(sprite) {
-  objects.forEach(function(o) {
-    if(sprite != o) {
+  for(var i = 0; i < objects.length; i++) {
+    if(sprite != objects[i]) {
       if(
-        sprite.x >= (o.x + o.width) ||      // RIGHT
-        (sprite.x + sprite.width) <= o.x || // LEFT 
-        sprite.y >= (o.y + o.height) ||     // DOWN
-        (sprite.y + sprite.height) <= o.y   // TOP
+        sprite.x >= (objects[i].x + objects[i].width) ||      // RIGHT
+        (sprite.x + sprite.width) <= objects[i].x || // LEFT 
+        sprite.y >= (objects[i].y + objects[i].height) ||     // DOWN
+        (sprite.y + sprite.height) <= objects[i].y   // TOP
       ) {  
         return false;
       } else { 
@@ -170,7 +172,7 @@ function colisionDetect(sprite) {
         return true;
       }
     }
-  });
+  }
 }
 
 /* Helpers */

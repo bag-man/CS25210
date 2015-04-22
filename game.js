@@ -79,13 +79,18 @@ function startGame() {
  
 /* Run game */
 function run() {
+  /* Update position */
   objects.forEach(function(o) {
     update((Date.now() - time) / 1000, o);
   });
+
+  /* Render background */
   ctx.fillStyle = "#F00";
   ctx.fillRect(0, 0, HALF, canvas.height);
   ctx.fillStyle = "#FFF";
   ctx.fillRect(HALF, 0, HALF, canvas.height);
+
+  /* Render objects */
   objects.forEach(function(o) {
     o.render();
   });
@@ -141,13 +146,40 @@ function update(mod, sprite) {
     sprite.velocityY *= GRAVITY;
   }
 
-  sprite.lastY = sprite.y;
-  sprite.lastX = sprite.x;
+  if(colisionDetect(sprite)) {
+    sprite.x = sprite.lastX;
+    sprite.y = sprite.lastY;
+  } else {
+    sprite.lastY = sprite.y;
+    sprite.lastX = sprite.x;
+  }
+
+}
+
+function colisionDetect(sprite) {
+  objects.forEach(function(o) {
+    if(sprite != o) {
+      console.log(sprite.side + " " + o.side);
+      if(
+        sprite.x > (o.x + o.width) ||      // RIGHT
+        (sprite.x + sprite.width) < o.x && // LEFT 
+        sprite.y > (o.y + o.height) ||     // DOWN
+        (sprite.y + sprite.height) < o.y   // TOP
+      ) {  
+        console.log("NO COLLISION");
+        return false;
+      } else { 
+        console.log("COLLISION");
+        return true;
+      }
+    }
+  });
 }
 
 /* Helpers */
 function clearCanvas() {
   keysDown = {};
+  objects = [];
   canvas.width = canvas.width; 
   ctx.fillStyle = "#F00";
   ctx.fillRect(0, 0, HALF, canvas.height);

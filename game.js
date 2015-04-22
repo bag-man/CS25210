@@ -145,31 +145,28 @@ function update(mod, sprite) {
   } else {
     sprite.velocityY *= GRAVITY;
   }
-
+  
   if(colisionDetect(sprite)) {
+    sprite.velocityX = 0; 
     sprite.x = sprite.lastX;
-    sprite.y = sprite.lastY;
-  } else {
-    sprite.lastY = sprite.y;
-    sprite.lastX = sprite.x;
   }
 
+  sprite.lastY = sprite.y;
+  sprite.lastX = sprite.x;
 }
 
 function colisionDetect(sprite) {
   objects.forEach(function(o) {
     if(sprite != o) {
-      console.log(sprite.side + " " + o.side);
       if(
-        sprite.x > (o.x + o.width) ||      // RIGHT
-        (sprite.x + sprite.width) < o.x && // LEFT 
-        sprite.y > (o.y + o.height) ||     // DOWN
-        (sprite.y + sprite.height) < o.y   // TOP
+        sprite.x >= (o.x + o.width) ||      // RIGHT
+        (sprite.x + sprite.width) <= o.x || // LEFT 
+        sprite.y >= (o.y + o.height) ||     // DOWN
+        (sprite.y + sprite.height) <= o.y   // TOP
       ) {  
-        console.log("NO COLLISION");
         return false;
       } else { 
-        console.log("COLLISION");
+        // COLLISION
         return true;
       }
     }

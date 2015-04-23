@@ -3,13 +3,17 @@ var range = document.getElementById("gravity");
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
 var animation;
+var difficulty;
+var timer;
 var time;
 var score = 0;
+var seconds = "00";
+var minutes = "00";
 
 canvas.height = 400;
 canvas.width = 500;
 
-var GRAVITY = 1.05;
+var GRAVITY = 1;
 var HALF = canvas.width / 2;
 
 var objects = [];
@@ -48,15 +52,6 @@ $('#canvas').click(function (e) {
 
 /* Initialise */
 function startGame() {
-  var difficulty = setInterval(function() {
-    range.value = parseFloat(range.value) + 0.01;
-    GRAVITY = range.value;
-    if (range.value > 1.1) {
-      clearInterval(difficulty);
-    }
-  }, 10000);
-  clearScore();
-  GRAVITY = document.getElementById("gravity").value;
   clearCanvas();
   objects.push(new Sprite({
     x: 100,
@@ -99,6 +94,23 @@ function startGame() {
     o.render();
   });
   animation = setInterval(run, 10);
+  difficulty = setInterval(function() {
+    range.value = parseFloat(range.value) + 0.01;
+    GRAVITY = range.value;
+    if (range.value > 1.1) {
+      clearInterval(difficulty);
+    }
+  }, 10000);
+  timer = setInterval(function() {
+    seconds = parseInt(seconds) + 1;
+    if(seconds < 10) {
+      seconds = "0" + seconds;
+    }
+    if(seconds > 60) {
+      seconds = "00";
+      minutes = parseInt(minutes) + 1;
+    }
+  }, 1000);
 }
  
 /* Run game */
@@ -136,6 +148,18 @@ function run() {
   ctx.fillStyle = "#FFF";
   ctx.font = "bold 16px Arial";
   ctx.fillText("HIGHSCORES", 10, 390);
+
+  ctx.fillStyle = "#FFF";
+  ctx.fillRect(HALF-10, 300, 10, 20);
+  ctx.fillRect(HALF-10, 350, 10, 20);
+  ctx.font = "bold 72px Arial";
+  ctx.fillText(minutes, 150, 360);
+
+  ctx.fillStyle = "#F00";
+  ctx.fillRect(HALF, 300, 10, 20);
+  ctx.fillRect(HALF, 350, 10, 20);
+  ctx.font = "bold 72px Arial";
+  ctx.fillText(seconds, 270, 360);
 
   /* Render objects */
   objects.forEach(function(o) {
@@ -225,12 +249,19 @@ function colisionDetect(sprite) {
 function clearCanvas() {
   keysDown = {};
   objects = [];
+  GRAVITY = 1;
+  range.value = 1;
   canvas.width = canvas.width; 
+  clearScore();
   ctx.fillStyle = "#F00";
   ctx.fillRect(0, 0, HALF, canvas.height);
   ctx.fillStyle = "#FFF";
   ctx.fillRect(HALF, 0, HALF, canvas.height);
   clearInterval(animation);
+  //clearInterval(difficulty);
+  //clearInterval(timer);
+  minutes = "00";
+  seconds = "00";
 }
 
 function addScore() {

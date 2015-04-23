@@ -1,4 +1,5 @@
 /* Global vars */
+var range = document.getElementById("gravity");
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
 var animation;
@@ -20,6 +21,11 @@ window.onload = function() {
   ctx.fillStyle = "#F00";
   ctx.font = "bold 16px Arial";
   ctx.fillText("PRESS SPACE TO START", 150, 200);
+  setInterval(function() {
+    range.value += 0.01;
+    console.log(range.value);
+    GRAVITY = parseInt(range.value);
+  }, 1000);
 };
 
 window.addEventListener('keydown', function(e) {

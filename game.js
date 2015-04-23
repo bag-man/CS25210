@@ -19,27 +19,18 @@ window.onload = function() {
   scoreField = document.getElementById('score');
 };
 
-$(window).keypress(function(e) {
-  if (e.keyCode === 0 || e.keyCode == 32) {
-    startGame();
-  }
-});
-
 window.addEventListener('keydown', function(e) {
   if([37, 38, 39, 40].indexOf(e.keyCode) > -1) {
     e.preventDefault();
+  }
+  if(e.keyCode == 32) {
+    startGame();
   }
   keysDown[e.keyCode] = true;
 });
 
 window.addEventListener('keyup', function(e) {
   delete keysDown[e.keyCode];
-});
-
-$(window).keypress(function(e) {
-  if (e.keyCode == 32) {
-    startGame();
-  }
 });
 
 /* Handle mouse events */

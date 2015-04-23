@@ -16,12 +16,17 @@ var objects = [];
 var keysDown = {};
 
 window.onload = function() {
-  document.getElementById("reset").focus();
   scoreField = document.getElementById('score');
 };
 
+$(window).keypress(function(e) {
+  if (e.keyCode === 0 || e.keyCode == 32) {
+    startGame();
+  }
+});
+
 window.addEventListener('keydown', function(e) {
-  if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+  if([37, 38, 39, 40].indexOf(e.keyCode) > -1) {
     e.preventDefault();
   }
   keysDown[e.keyCode] = true;
@@ -29,6 +34,21 @@ window.addEventListener('keydown', function(e) {
 
 window.addEventListener('keyup', function(e) {
   delete keysDown[e.keyCode];
+});
+
+$(window).keypress(function(e) {
+  if (e.keyCode == 32) {
+    startGame();
+  }
+});
+
+/* Handle mouse events */
+$('#canvas').click(function (e) {
+  var X = e.pageX - this.offsetLeft;
+  var Y = e.pageY - this.offsetTop;
+  if(X > 412 && Y > 375) {
+    startGame();
+  }
 });
 
 /* Initialise */
@@ -89,6 +109,10 @@ function run() {
   ctx.fillRect(0, 0, HALF, canvas.height);
   ctx.fillStyle = "#FFF";
   ctx.fillRect(HALF, 0, HALF, canvas.height);
+
+  ctx.fillStyle = "#F00";
+  ctx.font = "bold 16px Arial";
+  ctx.fillText("RESTART", 415, 390);
 
   /* Render objects */
   objects.forEach(function(o) {

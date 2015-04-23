@@ -21,11 +21,6 @@ window.onload = function() {
   ctx.fillStyle = "#F00";
   ctx.font = "bold 16px Arial";
   ctx.fillText("PRESS SPACE TO START", 150, 200);
-  setInterval(function() {
-    range.value += 0.01;
-    console.log(range.value);
-    GRAVITY = parseInt(range.value);
-  }, 1000);
 };
 
 window.addEventListener('keydown', function(e) {
@@ -53,6 +48,13 @@ $('#canvas').click(function (e) {
 
 /* Initialise */
 function startGame() {
+  var difficulty = setInterval(function() {
+    range.value = parseFloat(range.value) + 0.01;
+    GRAVITY = range.value;
+    if (range.value > 1.1) {
+      clearInterval(difficulty);
+    }
+  }, 10000);
   clearScore();
   GRAVITY = document.getElementById("gravity").value;
   clearCanvas();

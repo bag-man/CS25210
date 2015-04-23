@@ -3,6 +3,7 @@ var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
 var animation;
 var time;
+var score = 0;
 
 canvas.height = 400;
 canvas.width = 500;
@@ -104,6 +105,13 @@ function run() {
   ctx.fillStyle = "#F00";
   ctx.font = "bold 16px Arial";
   ctx.fillText("RESTART", 415, 390);
+  ctx.fillText("SCORE: ", 405, 20);
+  ctx.fillText(score, 470, 20);
+
+  ctx.fillStyle = "#FFF";
+  ctx.font = "bold 16px Arial";
+  ctx.fillText("HIGHSCORES", 10, 390);
+
 
   /* Render objects */
   objects.forEach(function(o) {
@@ -203,13 +211,10 @@ function clearCanvas() {
 }
 
 function addScore() {
-  var score = scoreField.innerHTML;
   score++;
-  scoreField.innerHTML = score;
 }
 
 function clearScore() {
-  var score = scoreField.innerHTML;
-  scoreField.innerHTML = 0;
+  score = 0;
 }
  

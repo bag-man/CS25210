@@ -14,7 +14,7 @@ function Sprite(options) {
   this.right = options.right;
   this.down = options.down;
   this.side = options.side;
-
+  this.moved = options.moved;
   this.lastX = options.x;
   this.lastY = options.y;
   this.velocityX = 0;
@@ -28,7 +28,7 @@ Sprite.prototype.render = function () {
     ctx.fillRect(this.x, this.y, this.width, this.height);
     if(this.side == "right") {
       this.side = "left";
-      addScore();
+      this.moved = true;
     }
   } else if((this.x + this.width) > (HALF) && this.x < (HALF)) {          
     // MIDDLE
@@ -42,7 +42,7 @@ Sprite.prototype.render = function () {
     ctx.fillRect(this.x, this.y, this.width, this.height);
     if(this.side == "left") {
       this.side = "right";
-      addScore();
+      this.moved = true;
     }
   }
 };

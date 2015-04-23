@@ -17,7 +17,9 @@ var objects = [];
 var keysDown = {};
 
 window.onload = function() {
-  scoreField = document.getElementById('score');
+  ctx.fillStyle = "#F00";
+  ctx.font = "bold 16px Arial";
+  ctx.fillText("PRESS SPACE TO START", 150, 200);
 };
 
 window.addEventListener('keydown', function(e) {
@@ -64,6 +66,7 @@ function startGame() {
     right: 68,
     down: 83,
     side: "left",
+    moved: false,
   }));
   objects.push(new Sprite({
     x: 350,
@@ -81,6 +84,7 @@ function startGame() {
     right: 39,
     down: 40,
     side: "right",
+    moved: false,
   }));
   time = Date.now();
   objects.forEach(function(o) {
@@ -92,9 +96,22 @@ function startGame() {
 /* Run game */
 function run() {
   /* Update position */
-  objects.forEach(function(o) {
-    update((Date.now() - time) / 1000, o);
+  objects.forEach(function(sprite) {
+    update((Date.now() - time) / 1000, sprite);
   });
+
+  var moved = true;
+  for(var i = 0; i < objects.length; i++) {
+    moved = objects[i].moved;
+    if(!moved) {
+      break;
+    } else {
+      objects[i].moved = false;
+    }
+  }
+  if(moved) {
+    addScore();
+  }
 
   /* Render background */
   ctx.fillStyle = "#F00";
@@ -112,11 +129,11 @@ function run() {
   ctx.font = "bold 16px Arial";
   ctx.fillText("HIGHSCORES", 10, 390);
 
-
   /* Render objects */
   objects.forEach(function(o) {
     o.render();
   });
+
   time = Date.now();
 }
 
@@ -174,8 +191,6 @@ function update(mod, sprite) {
     sprite.x = sprite.lastX;
   }
 
-  //colisionDetect(sprite);
-
   sprite.lastY = sprite.y;
   sprite.lastX = sprite.x;
 }
@@ -185,9 +200,9 @@ function colisionDetect(sprite) {
     if(sprite != objects[i]) {
       if(
         sprite.x >= (objects[i].x + objects[i].width) ||      // RIGHT
-        (sprite.x + sprite.width) <= objects[i].x || // LEFT 
+        (sprite.x + sprite.width) <= objects[i].x ||          // LEFT 
         sprite.y >= (objects[i].y + objects[i].height) ||     // DOWN
-        (sprite.y + sprite.height) <= objects[i].y   // TOP
+        (sprite.y + sprite.height) <= objects[i].y            // TOP
       ) {  
         return false;
       } else { 

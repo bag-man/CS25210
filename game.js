@@ -92,6 +92,7 @@ function createObjects() {
 
 /* Initialise */
 function startGame() {
+  over = false;
   resetGame();
   createObjects();
   time = Date.now();
@@ -178,7 +179,9 @@ function run() {
 /* Game logic */
 function update(mod, sprite) {
   if(sprite.y > canvas.height) {
-    gameOver();
+    if(!over) {
+      gameOver();
+    }
   }
 
   // Left
@@ -251,7 +254,11 @@ function colisionDetect(sprite) {
 }
 
 function gameOver() {
-  resetGame();
+  setTimeout(resetGame, 0); // No idea why this works and resetGame() doesn't
+  over = true;
+  console.log("GAME OVER");
+
+  /* THIS DOESN'T SHOW */
   ctx.fillStyle = "#F00";
   ctx.font = "bold 16px Arial";
   ctx.fillText("GAME OVER", 200, 200);

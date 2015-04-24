@@ -50,9 +50,8 @@ $('#canvas').click(function (e) {
   }
 });
 
-/* Initialise */
-function startGame() {
-  resetGame();
+function createObjects() {
+  objects = [];
   objects.push(new Sprite({
     x: 100,
     y: 0,
@@ -89,6 +88,12 @@ function startGame() {
     side: "right",
     moved: false,
   }));
+}
+
+/* Initialise */
+function startGame() {
+  resetGame();
+  createObjects();
   time = Date.now();
   objects.forEach(function(o) {
     o.render();
@@ -247,16 +252,10 @@ function colisionDetect(sprite) {
 
 function gameOver() {
   resetGame();
-
-  ctx.fillStyle = "#0F0";
-  ctx.font = "bold 16px Arial";
-  ctx.fillText("GAME", 200, 200);
-  ctx.fillText("PRESS SPACE", 150, 300);
-
   ctx.fillStyle = "#F00";
   ctx.font = "bold 16px Arial";
-  ctx.fillText("OVER", 250, 200);
-  ctx.fillText("TO RESTART", 250, 300);
+  ctx.fillText("GAME OVER", 200, 200);
+  ctx.fillText("PRESS SPACE TO RESTART", 140, 300);
 }
 
 function resetGame() {
@@ -264,9 +263,8 @@ function resetGame() {
   clearInterval(difficulty);
   clearInterval(timer);
   keysDown = {};
-  objects = [];
   GRAVITY = 1.03;
-  range.value = 1.03;
+  range.value = GRAVITY;
   canvas.width = canvas.width; 
   score = 0;
   minutes = "00";

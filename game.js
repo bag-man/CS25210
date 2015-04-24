@@ -48,6 +48,9 @@ $('#canvas').click(function (e) {
   if(X > 412 && Y > 375) {
     startGame();
   }
+  if(X < 121 && Y > 375) {
+    highscores();
+  }
 });
 
 function createObjects() {
@@ -170,15 +173,18 @@ function run() {
   ctx.fillText("SCORE: ", 405, 20);
   ctx.fillText(score, 470, 20);
 
-  ctx.fillStyle = "#F00";
-  ctx.font = "bold 16px Arial";
-  ctx.fillText("HIGHSCORES", 10, 390);
+  if(over) {
+    ctx.fillStyle = "#F00";
+    ctx.font = "bold 16px Arial";
+    ctx.fillText("HIGHSCORES", 10, 390);
+  }
 
-
-  /* Render objects */
-  objects.forEach(function(o) {
-    o.render();
-  });
+  if(!over) {
+    /* Render objects */
+    objects.forEach(function(o) {
+      o.render();
+    });
+  }
 
   time = Date.now();
 }
@@ -259,8 +265,26 @@ function colisionDetect(sprite) {
     }
   }
 }
+function highscores() {
+  resetGame();
+  over = true;
+  ctx.fillStyle = "#F00";
+  ctx.font = "bold 16px Arial";
+  ctx.fillText("HIGHSCORES", 200, 75);
+
+  var start = 100;
+  for (var i = 0; i < localStorage.length; i++){
+    var score = localStorage.getItem(localStorage.key(i));
+    var date = localStorage.key(i);
+    ctx.fillText(date + " " + score, 200, start);
+    start += 25;
+  }
+}
 
 function gameOver() {
+  var rightNow = new Date();
+  var res = rightNow.toISOString().slice(0,19).replace(/T/g," ");
+  localStorage.setItem(res, score);
   resetGame();
   over = true;
 
@@ -281,4 +305,5 @@ function resetGame() {
   score = 0;
   minutes = "00";
   seconds = "00";
+
 }

@@ -263,9 +263,7 @@ function colisionDetect(sprite) {
 function gameOver() {
   resetGame();
   over = true;
-  console.log("GAME OVER");
 
-  /* THIS DOESN'T SHOW */
   ctx.fillStyle = "#F00";
   ctx.font = "bold 16px Arial";
   ctx.fillText("GAME OVER", 200, 200);

@@ -140,11 +140,29 @@ function run() {
     score++;
   }
 
-  /* Render background */
-  ctx.fillStyle = "#F00";
-  ctx.fillRect(0, 0, HALF, canvas.height);
-  ctx.fillStyle = "#FFF";
-  ctx.fillRect(HALF, 0, HALF, canvas.height);
+  if(!over) {
+    /* Render background */
+    ctx.fillStyle = "#F00";
+    ctx.fillRect(0, 0, HALF, canvas.height);
+    ctx.fillStyle = "#FFF";
+    ctx.fillRect(HALF, 0, HALF, canvas.height);
+
+    ctx.fillStyle = "#FFF";
+    ctx.fillRect(HALF-10, 300, 10, 20);
+    ctx.fillRect(HALF-10, 350, 10, 20);
+    ctx.font = "bold 72px Arial";
+    ctx.fillText(minutes, 150, 360);
+
+    ctx.fillStyle = "#F00";
+    ctx.fillRect(HALF, 300, 10, 20);
+    ctx.fillRect(HALF, 350, 10, 20);
+    ctx.font = "bold 72px Arial";
+    ctx.fillText(seconds, 270, 360);
+
+    ctx.fillStyle = "#FFF";
+    ctx.font = "bold 16px Arial";
+    ctx.fillText("HIGHSCORES", 10, 390);
+  }
 
   ctx.fillStyle = "#F00";
   ctx.font = "bold 16px Arial";
@@ -152,21 +170,10 @@ function run() {
   ctx.fillText("SCORE: ", 405, 20);
   ctx.fillText(score, 470, 20);
 
-  ctx.fillStyle = "#FFF";
+  ctx.fillStyle = "#F00";
   ctx.font = "bold 16px Arial";
   ctx.fillText("HIGHSCORES", 10, 390);
 
-  ctx.fillStyle = "#FFF";
-  ctx.fillRect(HALF-10, 300, 10, 20);
-  ctx.fillRect(HALF-10, 350, 10, 20);
-  ctx.font = "bold 72px Arial";
-  ctx.fillText(minutes, 150, 360);
-
-  ctx.fillStyle = "#F00";
-  ctx.fillRect(HALF, 300, 10, 20);
-  ctx.fillRect(HALF, 350, 10, 20);
-  ctx.font = "bold 72px Arial";
-  ctx.fillText(seconds, 270, 360);
 
   /* Render objects */
   objects.forEach(function(o) {
@@ -254,7 +261,7 @@ function colisionDetect(sprite) {
 }
 
 function gameOver() {
-  setTimeout(resetGame, 0); // No idea why this works and resetGame() doesn't
+  resetGame();
   over = true;
   console.log("GAME OVER");
 

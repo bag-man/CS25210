@@ -13,7 +13,7 @@ var minutes = "00";
 canvas.height = 400;
 canvas.width = 500;
 
-var GRAVITY = 1;
+var GRAVITY = 1.03;
 var HALF = canvas.width / 2;
 
 var objects = [];
@@ -52,7 +52,7 @@ $('#canvas').click(function (e) {
 
 /* Initialise */
 function startGame() {
-  clearCanvas();
+  resetGame();
   objects.push(new Sprite({
     x: 100,
     y: 0,
@@ -120,6 +120,7 @@ function run() {
     update((Date.now() - time) / 1000, sprite);
   });
 
+  /* Do scoring */
   var moved = true;
   for(var i = 0; i < objects.length; i++) {
     moved = objects[i].moved;
@@ -130,7 +131,7 @@ function run() {
     }
   }
   if(moved) {
-    addScore();
+    score++;
   }
 
   /* Render background */
@@ -172,8 +173,7 @@ function run() {
 /* Game logic */
 function update(mod, sprite) {
   if(sprite.y > canvas.height) {
-    alert("GAME OVER!!!");
-    clearCanvas();
+    gameOver();
   }
 
   // Left
@@ -245,30 +245,30 @@ function colisionDetect(sprite) {
   }
 }
 
-/* Helpers */
-function clearCanvas() {
+function gameOver() {
+  resetGame();
+
+  ctx.fillStyle = "#0F0";
+  ctx.font = "bold 16px Arial";
+  ctx.fillText("GAME", 200, 200);
+  ctx.fillText("PRESS SPACE", 150, 300);
+
+  ctx.fillStyle = "#F00";
+  ctx.font = "bold 16px Arial";
+  ctx.fillText("OVER", 250, 200);
+  ctx.fillText("TO RESTART", 250, 300);
+}
+
+function resetGame() {
+  clearInterval(animation);
+  clearInterval(difficulty);
+  clearInterval(timer);
   keysDown = {};
   objects = [];
-  GRAVITY = 1;
-  range.value = 1;
+  GRAVITY = 1.03;
+  range.value = 1.03;
   canvas.width = canvas.width; 
-  clearScore();
-  ctx.fillStyle = "#F00";
-  ctx.fillRect(0, 0, HALF, canvas.height);
-  ctx.fillStyle = "#FFF";
-  ctx.fillRect(HALF, 0, HALF, canvas.height);
-  clearInterval(animation);
-  //clearInterval(difficulty);
-  //clearInterval(timer);
+  score = 0;
   minutes = "00";
   seconds = "00";
 }
-
-function addScore() {
-  score++;
-}
-
-function clearScore() {
-  score = 0;
-}
- 

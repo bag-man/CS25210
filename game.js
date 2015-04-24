@@ -282,6 +282,8 @@ function highscores() {
 }
 
 function gameOver() {
+  var audio = new Audio('loss.mp3');
+  //audio.play();
   var rightNow = new Date();
   var res = rightNow.toISOString().slice(0,19).replace(/T/g," ");
   localStorage.setItem(res, score);

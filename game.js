@@ -242,6 +242,8 @@ function update(mod, sprite) {
   if(colisionDetect(sprite)) {
     sprite.velocityX = 0; 
     sprite.x = sprite.lastX;
+    sprite.velocityY = 0; 
+    sprite.y = sprite.lastY;
   }
 
   sprite.lastY = sprite.y;
@@ -273,12 +275,28 @@ function highscores() {
   ctx.fillText("HIGHSCORES", 200, 75);
 
   var start = 100;
+  var scores = [];
   for (var i = 0; i < localStorage.length; i++){
     var score = localStorage.getItem(localStorage.key(i));
     var date = localStorage.key(i);
-    ctx.fillText(date + " " + score, 200, start);
-    start += 25;
+    scores.push({"time": date, "score": parseInt(score)});
   }
+
+  scores.sort(compare);
+  for (var j in scores){
+    ctx.fillText(scores[j].time + " " + scores[j].score, 170, start);
+    console.log(j);
+    start += 25;
+    if(j == 10) break;
+  }
+}
+
+function compare(a,b) {
+  if (a.score < b.score)
+     return 1;
+  if (a.score > b.score)
+    return -1;
+  return 0;
 }
 
 function gameOver() {

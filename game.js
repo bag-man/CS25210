@@ -11,6 +11,8 @@ var seconds = "00";
 var minutes = "00";
 var ding = new Audio('ding.mp3');
 var loss = new Audio('loss.mp3');
+var helpText = new Image();
+helpText.src = "help.png";
 
 canvas.height = 400;
 canvas.width = 500;
@@ -287,7 +289,7 @@ function help() {
   over = true;
   ctx.fillStyle = "#F00";
   ctx.font = "bold 16px Arial";
-  ctx.fillText("HELP INFO GOES HERE", 200, 75);
+  ctx.drawImage(helpText, 50, 50);
   ctx.fillText("RESTART", 415, 390);
   ctx.fillText("HIGHSCORES", 10, 390);
 }

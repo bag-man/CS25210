@@ -206,6 +206,12 @@ function update(mod, sprite) {
       sprite.speed *= sprite.momentum;
     }
   }
+  // Bouncy
+  if(sprite.up in keysDown && sprite.y <= 0) {
+    var tmpKey = sprite.up;
+    sprite.up = null;
+    setTimeout(function() { sprite.up = tmpKey; }, 1500);
+  }
   // Up
   if(sprite.up in keysDown && sprite.y > 0) {
     sprite.y -= sprite.speed * mod;

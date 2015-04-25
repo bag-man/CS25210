@@ -11,6 +11,9 @@ body {
   text-align: center;
 }
 
-p { 
-  display: inline;
+a {
+  font-family: arial;
+  font-size:16px;
+  color: #FF0000;
+  font-weight: bold;
 }

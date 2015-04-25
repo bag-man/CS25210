@@ -9,6 +9,8 @@ var time;
 var score = 0;
 var seconds = "00";
 var minutes = "00";
+var ding = new Audio('ding.mp3');
+var loss = new Audio('loss.mp3');
 
 canvas.height = 400;
 canvas.width = 500;
@@ -244,6 +246,7 @@ function update(mod, sprite) {
     sprite.x = sprite.lastX;
     sprite.velocityY = 0; 
     sprite.y = sprite.lastY;
+    ding.play();
   }
 
   sprite.lastY = sprite.y;
@@ -300,8 +303,7 @@ function compare(a,b) {
 }
 
 function gameOver() {
-  var audio = new Audio('loss.mp3');
-  //audio.play();
+  loss.play();
   var rightNow = new Date();
   var res = rightNow.toISOString().slice(0,19).replace(/T/g," ");
   localStorage.setItem(res, score);

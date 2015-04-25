@@ -138,17 +138,10 @@ function run() {
   });
 
   /* Do scoring */
-  var moved = true;
-  for(var i = 0; i < objects.length; i++) {
-    moved = objects[i].moved;
-    if(!moved) {
-      break;
-    } else {
-      objects[i].moved = false;
-    }
-  }
-  if(moved) {
+  if(objects[0].moved && objects[1].moved) {
     score++;
+    objects[0].moved = false;
+    objects[1].moved = false;
   }
 
   if(!over) {

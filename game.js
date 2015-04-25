@@ -270,6 +270,7 @@ function colisionDetect(sprite) {
     }
   }
 }
+
 function highscores() {
   resetGame();
   over = true;

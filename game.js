@@ -283,6 +283,7 @@ function highscores() {
   ctx.fillStyle = "#F00";
   ctx.font = "bold 16px Arial";
   ctx.fillText("HIGHSCORES", 200, 75);
+  ctx.fillText("RESTART", 415, 390);
 
   var start = 100;
   var scores = [];
@@ -295,7 +296,6 @@ function highscores() {
   scores.sort(compare);
   for (var j in scores){
     ctx.fillText(scores[j].time + " " + scores[j].score, 170, start);
-    console.log(j);
     start += 25;
     if(j == 10) break;
   }

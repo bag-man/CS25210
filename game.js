@@ -9,8 +9,8 @@ var time;
 var score = 0;
 var seconds = "00";
 var minutes = "00";
-var ding = new Audio('ding.mp3');
-var loss = new Audio('loss.mp3');
+var ding = new Audio('ding.mp3'); // http://soundjax.com/reddo/74421%5EDing.mp3
+var loss = new Audio('loss.mp3'); // http://soundbible.com/1830-Sad-Trombone.html
 var helpText = new Image();
 helpText.src = "help.png";
 
@@ -138,6 +138,7 @@ function run() {
   });
 
   /* Do scoring */
+  // Bit of a hack 
   if(objects[0].moved && objects[1].moved) {
     score++;
     objects[0].moved = false;
@@ -248,10 +249,15 @@ function update(mod, sprite) {
   }
   
   if(colisionDetect(sprite)) {
+
+    // if horizontal clash
     sprite.velocityX = 0; 
     sprite.x = sprite.lastX;
+
+    // if vertical clash
     sprite.velocityY = 0; 
     sprite.y = sprite.lastY;
+
     ding.play();
   }
 

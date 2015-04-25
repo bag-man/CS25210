@@ -28,8 +28,8 @@ var keysDown = {};
 window.onload = function() {
   ctx.fillStyle = "#F00";
   ctx.font = "bold 16px Arial";
-  ctx.fillText("HELP", 10, 20);
-  ctx.fillText("PRESS SPACE TO START", 150, 200);
+  ctx.drawImage(helpText, 50, 50);
+  ctx.fillText("PRESS SPACE TO START", 150, 300);
 };
 
 window.addEventListener('keydown', function(e) {

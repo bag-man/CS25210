@@ -26,6 +26,7 @@ var keysDown = {};
 window.onload = function() {
   ctx.fillStyle = "#F00";
   ctx.font = "bold 16px Arial";
+  ctx.fillText("HELP", 10, 20);
   ctx.fillText("PRESS SPACE TO START", 150, 200);
 };
 
@@ -47,6 +48,9 @@ window.addEventListener('keyup', function(e) {
 $('#canvas').click(function (e) {
   var X = e.pageX - this.offsetLeft;
   var Y = e.pageY - this.offsetTop;
+  if(X < 55 && Y < 23) {
+    help();
+  }
   if(X > 412 && Y > 375) {
     startGame();
   }
@@ -167,6 +171,7 @@ function run() {
     ctx.fillStyle = "#FFF";
     ctx.font = "bold 16px Arial";
     ctx.fillText("HIGHSCORES", 10, 390);
+    ctx.fillText("HELP", 10, 20);
   }
 
   ctx.fillStyle = "#F00";
@@ -277,6 +282,16 @@ function colisionDetect(sprite) {
   }
 }
 
+function help() {
+  resetGame();
+  over = true;
+  ctx.fillStyle = "#F00";
+  ctx.font = "bold 16px Arial";
+  ctx.fillText("HELP INFO GOES HERE", 200, 75);
+  ctx.fillText("RESTART", 415, 390);
+  ctx.fillText("HIGHSCORES", 10, 390);
+}
+
 function highscores() {
   resetGame();
   over = true;
@@ -284,6 +299,7 @@ function highscores() {
   ctx.font = "bold 16px Arial";
   ctx.fillText("HIGHSCORES", 200, 75);
   ctx.fillText("RESTART", 415, 390);
+  ctx.fillText("HELP", 10, 20);
 
   var start = 100;
   var scores = [];
@@ -321,6 +337,7 @@ function gameOver() {
   ctx.font = "bold 16px Arial";
   ctx.fillText("GAME OVER", 200, 200);
   ctx.fillText("PRESS SPACE TO RESTART", 140, 300);
+  ctx.fillText("HELP", 10, 20);
 }
 
 function resetGame() {

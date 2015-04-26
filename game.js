@@ -2,10 +2,6 @@
 var range = document.getElementById("gravity");
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
-var animation;
-var difficulty;
-var timer;
-var time;
 var score = 0;
 var seconds = "00";
 var minutes = "00";
@@ -20,9 +16,11 @@ canvas.width = 500;
 var GRAVITY = 1.03;
 var HALF = canvas.width / 2;
 
+var animation;
+var difficulty;
+var timer;
+var time;
 var objects = [];
-
-/* Keyboard interaction */
 var keysDown = {};
 
 window.onload = function() {

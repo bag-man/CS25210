@@ -11,8 +11,8 @@ var helpText = new Image();
 helpText.src = "help.png";
 
 var GRAVITY = 1.03;
-var WIDTH = 500;
-var HEIGHT = 400;
+var WIDTH = 600;
+var HEIGHT = 600;
 var HALF = WIDTH / 2;
 
 canvas.height = HEIGHT;
@@ -28,8 +28,8 @@ var keysDown = {};
 window.onload = function() {
   ctx.fillStyle = "#F00";
   ctx.font = "bold 16px Arial";
-  ctx.drawImage(helpText, 50, 50);
-  ctx.fillText("PRESS SPACE TO START", 150, 300);
+  ctx.drawImage(helpText, (HALF - 200), 50);
+  ctx.fillText("PRESS SPACE TO START", (HALF - 100), 300);
 };
 
 window.addEventListener('keydown', function(e) {
@@ -57,7 +57,7 @@ $('#canvas').click(function (e) {
   if(X > (WIDTH - 88) && Y > (HEIGHT - 25)) { // 412 / 375
     startGame();
   }
-  if(X < 121 && Y > 375) {
+  if(X < 121 && Y > (HEIGHT - 25)) {
     highscores();
   }
 });
@@ -65,7 +65,7 @@ $('#canvas').click(function (e) {
 function createObjects() {
   objects = [];
   objects.push(new Sprite({
-    x: 100,
+    x: ((HALF / 2) - 25),
     y: 0,
     width: 50,
     height: 50,
@@ -83,7 +83,7 @@ function createObjects() {
     moved: false,
   }));
   objects.push(new Sprite({
-    x: 350,
+    x: ((HALF * 1.5) - 25),
     y: 0,
     width: 50,
     height: 50,
@@ -149,38 +149,38 @@ function run() {
   if(!over) {
     /* Render background */
     ctx.fillStyle = "#F00";
-    ctx.fillRect(0, 0, HALF, canvas.height);
+    ctx.fillRect(0, 0, HALF, HEIGHT);
     ctx.fillStyle = "#FFF";
-    ctx.fillRect(HALF, 0, HALF, canvas.height);
+    ctx.fillRect(HALF, 0, HALF, HEIGHT);
 
     ctx.fillStyle = "#FFF";
-    ctx.fillRect(HALF-10, 300, 10, 20);
-    ctx.fillRect(HALF-10, 350, 10, 20);
+    ctx.fillRect(HALF-10, (HEIGHT - 100), 10, 20);
+    ctx.fillRect(HALF-10, (HEIGHT - 50), 10, 20);
     ctx.font = "bold 72px Arial";
-    ctx.fillText(minutes, 150, 360);
+    ctx.fillText(minutes, (HALF - 100), (HEIGHT - 40));
 
     ctx.fillStyle = "#F00";
-    ctx.fillRect(HALF, 300, 10, 20);
-    ctx.fillRect(HALF, 350, 10, 20);
+    ctx.fillRect(HALF, (HEIGHT - 100), 10, 20);
+    ctx.fillRect(HALF, (HEIGHT - 50), 10, 20);
     ctx.font = "bold 72px Arial";
-    ctx.fillText(seconds, 270, 360);
+    ctx.fillText(seconds, (HALF + 20), (HEIGHT - 40));
 
     ctx.fillStyle = "#FFF";
     ctx.font = "bold 16px Arial";
-    ctx.fillText("HIGHSCORES", 10, 390);
+    ctx.fillText("HIGHSCORES", 10, (HEIGHT - 10));
     ctx.fillText("HELP", 10, 20);
   }
 
   ctx.fillStyle = "#F00";
   ctx.font = "bold 16px Arial";
-  ctx.fillText("RESTART", 415, 390);
-  ctx.fillText("SCORE: ", 405, 20);
-  ctx.fillText(score, 470, 20);
+  ctx.fillText("RESTART", (WIDTH - 85), (HEIGHT - 10));
+  ctx.fillText("SCORE: ", (WIDTH - 95), 20);
+  ctx.fillText(score, (WIDTH - 30), 20);
 
   if(over) {
     ctx.fillStyle = "#F00";
     ctx.font = "bold 16px Arial";
-    ctx.fillText("HIGHSCORES", 10, 390);
+    ctx.fillText("HIGHSCORES", 10, (HEIGHT - 10));
   }
 
   if(!over) {
@@ -289,9 +289,9 @@ function help() {
   over = true;
   ctx.fillStyle = "#F00";
   ctx.font = "bold 16px Arial";
-  ctx.drawImage(helpText, 50, 50);
-  ctx.fillText("RESTART", 415, 390);
-  ctx.fillText("HIGHSCORES", 10, 390);
+  ctx.drawImage(helpText, (HALF - 200), 50);
+  ctx.fillText("RESTART", (WIDTH - 85), (HEIGHT - 10));
+  ctx.fillText("HIGHSCORES", 10, (HEIGHT - 10));
 }
 
 function highscores() {
@@ -299,8 +299,8 @@ function highscores() {
   over = true;
   ctx.fillStyle = "#F00";
   ctx.font = "bold 16px Arial";
-  ctx.fillText("HIGHSCORES", 200, 75);
-  ctx.fillText("RESTART", 415, 390);
+  ctx.fillText("HIGHSCORES", (HALF - 50), 75);
+  ctx.fillText("RESTART", (WIDTH - 85), (HEIGHT - 10));
   ctx.fillText("HELP", 10, 20);
 
   var start = 100;
@@ -313,7 +313,7 @@ function highscores() {
 
   scores.sort(compare);
   for (var j in scores){
-    ctx.fillText(scores[j].time + " " + scores[j].score, 170, start);
+    ctx.fillText(scores[j].time + " " + scores[j].score, (HALF - 80), start);
     start += 25;
     if(j == 10) break;
   }
@@ -337,8 +337,8 @@ function gameOver() {
 
   ctx.fillStyle = "#F00";
   ctx.font = "bold 16px Arial";
-  ctx.fillText("GAME OVER", 200, 200);
-  ctx.fillText("PRESS SPACE TO RESTART", 140, 300);
+  ctx.fillText("GAME OVER", (HALF - 50), 200);
+  ctx.fillText("PRESS SPACE TO RESTART", (HALF - 110), 300);
   ctx.fillText("HELP", 10, 20);
 }
 

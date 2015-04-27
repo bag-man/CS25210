@@ -251,7 +251,7 @@ function update(mod, sprite) {
     // if horizontal clash
     sprite.velocityX = 0; 
     sprite.x = sprite.lastX;
-
+      
     // if vertical clash
     sprite.velocityY = 0; 
     sprite.y = sprite.lastY;

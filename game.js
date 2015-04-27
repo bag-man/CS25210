@@ -35,6 +35,7 @@ window.addEventListener('keydown', function(e) {
     e.preventDefault();
   }
   if(e.keyCode == 32) {
+    e.preventDefault();
     startGame();
   }
   keysDown[e.keyCode] = true;

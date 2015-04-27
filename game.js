@@ -10,11 +10,13 @@ var loss = new Audio('loss.mp3'); // http://soundbible.com/1830-Sad-Trombone.htm
 var helpText = new Image();
 helpText.src = "help.png";
 
-canvas.height = 400;
-canvas.width = 500;
-
 var GRAVITY = 1.03;
-var HALF = canvas.width / 2;
+var WIDTH = 500;
+var HEIGHT = 400;
+var HALF = WIDTH / 2;
+
+canvas.height = HEIGHT;
+canvas.width = WIDTH;
 
 var animation;
 var difficulty;
@@ -52,7 +54,7 @@ $('#canvas').click(function (e) {
   if(X < 55 && Y < 23) {
     help();
   }
-  if(X > 412 && Y > 375) {
+  if(X > (WIDTH - 88) && Y > (HEIGHT - 25)) { // 412 / 375
     startGame();
   }
   if(X < 121 && Y > 375) {

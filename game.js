@@ -18,21 +18,6 @@ var HALF = WIDTH / 2;
 canvas.height = HEIGHT;
 canvas.width = WIDTH;
 
-function fullscreen() {
-  //canvas.mozRequestFullScreen();
-  canvas.requestFullScreen();
-
-  WIDTH = screen.width;
-  HEIGHT = screen.height;
-  console.log(WIDTH + " " + HEIGHT);
-  canvas.height = HEIGHT;
-  canvas.width = WIDTH;
-  ctx.fillStyle = "#F00";
-  ctx.font = "bold 16px Arial";
-  ctx.drawImage(helpText, (HALF - 200), 50);
-  ctx.fillText("PRESS SPACE TO START", (HALF - 100), 300);
-}
-
 var animation;
 var difficulty;
 var timer;

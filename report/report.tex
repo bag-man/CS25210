@@ -1,0 +1,56 @@
+\documentclass[10pt]{article}
+\usepackage{a4wide}
+\usepackage[english]{babel}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{lastpage}
+\usepackage{graphicx}
+\usepackage[section]{placeins}
+\usepackage[superscript,biblabel]{cite}
+\usepackage[margin=1in]{geometry}
+
+\newcommand\module{CS25210}
+\newcommand\moduleName{Client-Side Graphics Programming for the Web}
+\newcommand\authorText{Owen Garland}
+\newcommand\authorUsername{owg1}
+\newcommand\studentID{130072557}
+\newcommand\assesser{Hannah Dee}
+
+\title{\huge \module Written Assignment \\\Large \moduleName}
+\author{\vspace{100pt}
+  \begin{tabular}{r||l}
+      Author          & \authorText (\authorUsername)\\
+                      & \studentID \\
+      Date Published  & \today \\
+                      & \\
+      Assessed By     & \assesser \\
+      Department      & Computer Science \\
+      Address         & Aberystwyth University \\
+                      & Penglais Campas \\
+                      & Ceredigion \\
+                      & SY23 3DB \\
+  \end{tabular} \\
+  Copyright \textcopyright Aberystwyth University 2015
+  \date{}
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\module~Assignment}
+\rhead{\authorText~-~\studentID}
+\rfoot{Page \thepage \hspace{1pt} of \pageref{LastPage}}
+\lfoot{Aberystwyth University - Computer Science}
+
+\begin{document}
+  \setcounter{page}{1}
+
+  \maketitle
+  \thispagestyle{empty}
+  \clearpage
+
+  \section{Executive Summary}
+  \section{Technical Overview}
+  \section{Software Testing}
+  \section{Reflections and Future Work}
+
+\end{document}
